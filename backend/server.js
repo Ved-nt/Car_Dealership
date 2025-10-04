@@ -56,11 +56,12 @@ const carSchema = new mongoose.Schema(
     year: { type: Number, required: true },
     fuelType: { type: String, required: true },
     driven: { type: String, required: true },
-    transmission: { type: String, required: true }, // Automatic / Manual
-    ownership: { type: String, required: true },   // First / Second
-    registration: { type: String, required: true }, // e.g., HR
-    color: { type: String, required: true },      // e.g., White
-    bodyType: { type: String, required: true },   // SUV / Sedan
+    transmission: { type: String, required: true },
+    ownership: { type: String, required: true },
+    registration: { type: String, required: true },
+    color: { type: String, required: true },
+    bodyType: { type: String, required: true },
+    isSold: { type: Boolean, default: false }, // <-- NEW FIELD
   },
   { timestamps: true }
 );
@@ -153,6 +154,22 @@ app.get("/api/cars/:id", async (req, res) => {
   }
 });
 
+// ⚡ Mark car as sold (Admin)
+app.patch("/api/cars/:id/sold", async (req, res) => {
+  try {
+    const car = await Car.findById(req.params.id);
+    if (!car) return res.status(404).json({ success: false, message: "Car not found" });
+
+    car.isSold = true;
+    await car.save();
+
+    res.json({ success: true, message: "Car marked as sold", car });
+  } catch (err) {
+    console.error("❌ Error marking car as sold:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
 // ---------------------- DELETE CAR -------------------------
 app.delete("/api/cars/:id", async (req, res) => {
   try {
@@ -171,7 +188,6 @@ app.delete("/api/cars/:id", async (req, res) => {
 app.post("/api/admin/login", (req, res) => {
   const { email, password } = req.body;
 
-  // Get admin credentials from .env
   const adminEmail = process.env.ADMIN_EMAIL;
   const adminPassword = process.env.ADMIN_PASSWORD;
 
@@ -181,7 +197,6 @@ app.post("/api/admin/login", (req, res) => {
     return res.status(401).json({ success: false, message: "Invalid credentials" });
   }
 });
-
 
 // ---------------------- START SERVER -------------------
 const PORT = process.env.PORT || 5000;

@@ -131,7 +131,7 @@ const CarDetails = () => {
       {/* Related Cars Carousel */}
       {relatedCars.length > 0 && (
         <div className="mt-16">
-          <h2 className="text-2xl font-bold mb-6 text-center">Other Listings</h2>
+          <h2 className="text-2xl text-black font-bold mb-6 text-center">Other Listings</h2>
           <div className="flex gap-4 overflow-x-auto pb-4">
             {relatedCars.map((c) => (
               <div
@@ -145,7 +145,7 @@ const CarDetails = () => {
                   className="w-full h-40 object-cover rounded-t-2xl"
                 />
                 <div className="p-3">
-                  <h3 className="font-semibold">{c.name}</h3>
+                  <h3 className="text-black font-semibold">{c.name}</h3>
                   <p className="text-gray-600">{c.year} • {c.mileage}</p>
                 </div>
               </div>

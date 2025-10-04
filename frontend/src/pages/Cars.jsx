@@ -1,4 +1,3 @@
-// src/pages/Cars.jsx
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -56,21 +55,34 @@ const Cars = () => {
           <div
             key={car._id}
             ref={(el) => (cardsRef.current[index] = el)}
-            className="bg-white shadow-2xl rounded-2xl overflow-hidden transform transition-transform hover:scale-105 cursor-pointer"
-            onClick={() => navigate(`/cars/${car._id}`)}
+            className={`relative bg-white shadow-2xl rounded-2xl overflow-hidden transform transition-transform hover:scale-105 cursor-pointer ${
+              car.isSold ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            onClick={() => !car.isSold && navigate(`/cars/${car._id}`)}
           >
+            {/* SOLD Tag */}
+            {car.isSold && (
+              <div className="absolute top-3 left-3 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg z-10">
+                SOLD
+              </div>
+            )}
+
             <img
               src={car.images[0] || "/placeholder.jpg"}
               alt={car.name}
               className="w-full h-52 object-cover"
             />
+
             <div className="p-5">
               <h2 className="text-xl text-black font-semibold mb-2">{car.name}</h2>
               <p className="text-gray-600 mb-2">
-                {car.year} • {car.mileage} • {car.fuelType}
+                {car.year} • {car.fuelType} • {car.driven}
               </p>
               <p className="text-gray-800 font-bold mb-4">₹ {car.price}</p>
-              <button className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 rounded-xl transition-all shadow-md hover:shadow-cyan-400/50">
+              <button
+                className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 rounded-xl transition-all shadow-md hover:shadow-cyan-400/50"
+                disabled={car.isSold}
+              >
                 View Details
               </button>
             </div>
