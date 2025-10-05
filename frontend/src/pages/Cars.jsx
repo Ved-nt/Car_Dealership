@@ -11,6 +11,7 @@ const Cars = () => {
   const navigate = useNavigate();
   const cardsRef = useRef([]);
 
+  // Fetch all cars
   useEffect(() => {
     const fetchCars = async () => {
       try {
@@ -23,8 +24,10 @@ const Cars = () => {
     fetchCars();
   }, []);
 
+  // Animate cards on scroll
   useEffect(() => {
     cardsRef.current.forEach((card, index) => {
+      if (!card) return;
       gsap.fromTo(
         card,
         { opacity: 0, y: 50 },
@@ -67,12 +70,14 @@ const Cars = () => {
               </div>
             )}
 
+            {/* Car Image */}
             <img
-              src={car.images[0] || "/placeholder.jpg"}
+              src={car.images?.[0] || "/placeholder.jpg"}
               alt={car.name}
               className="w-full h-52 object-cover"
             />
 
+            {/* Car Details */}
             <div className="p-5">
               <h2 className="text-xl text-black font-semibold mb-2">{car.name}</h2>
               <p className="text-gray-600 mb-2">
@@ -80,7 +85,11 @@ const Cars = () => {
               </p>
               <p className="text-gray-800 font-bold mb-4">₹ {car.price}</p>
               <button
-                className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 rounded-xl transition-all shadow-md hover:shadow-cyan-400/50"
+                className={`w-full ${
+                  car.isSold
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-cyan-500 hover:bg-cyan-600"
+                } text-white font-semibold py-2 rounded-xl transition-all shadow-md hover:shadow-cyan-400/50`}
                 disabled={car.isSold}
               >
                 View Details

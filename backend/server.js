@@ -1,9 +1,9 @@
-// backend/server.js
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const connectDB = require("./db"); // Database connection
+const connectDB = require("./db");
 const mongoose = require("mongoose");
+const nodemailer = require("nodemailer"); // 🟢 NEW
 
 const app = express();
 
@@ -14,7 +14,7 @@ app.use(express.json());
 // ------------------ MONGODB CONNECTION -----------------
 connectDB();
 
-// -------------------- CONTACT SCHEMA & ROUTE --------------------
+// -------------------- CONTACT SCHEMA --------------------
 const contactSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -28,6 +28,17 @@ const contactSchema = new mongoose.Schema(
 
 const Contact = mongoose.model("Contact", contactSchema);
 
+// -------------------- NODEMAILER TRANSPORT --------------------
+// Using Gmail SMTP
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER, // your Gmail
+    pass: process.env.EMAIL_PASS, // App Password (not normal password)
+  },
+});
+
+// -------------------- CONTACT ROUTE --------------------
 app.post("/api/contact", async (req, res) => {
   const { name, email, whatsapp, budget, interestedCar } = req.body;
 
@@ -36,11 +47,31 @@ app.post("/api/contact", async (req, res) => {
   }
 
   try {
+    // 1️⃣ Save contact to DB
     const contact = new Contact({ name, email, whatsapp, budget, interestedCar });
     await contact.save();
-    res.status(201).json({ success: true, message: "Contact saved successfully" });
+
+    // 2️⃣ Send email notification to Uncle
+    const mailOptions = {
+      from: `"Car Website" <${process.env.EMAIL_USER}>`,
+      to: process.env.UNCLE_EMAIL, // Uncle's email from .env
+      subject: `🚨 New Inquiry from ${name}`,
+      html: `
+        <h2>New Contact Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>WhatsApp:</strong> ${whatsapp}</p>
+        <p><strong>Budget:</strong> ${budget}</p>
+        <p><strong>Interested Car:</strong> ${interestedCar}</p>
+        <p>Submitted on: ${new Date().toLocaleString()}</p>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(201).json({ success: true, message: "Contact saved & email sent to Uncle!" });
   } catch (err) {
-    console.error("❌ Error saving contact:", err);
+    console.error("❌ Error in contact route:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
@@ -51,7 +82,7 @@ const carSchema = new mongoose.Schema(
     name: { type: String, required: true },
     brand: { type: String, required: true },
     price: { type: Number, required: true },
-    images: { type: [String], required: true }, // Array of image URLs
+    images: { type: [String], required: true },
     description: { type: String, required: true },
     year: { type: Number, required: true },
     fuelType: { type: String, required: true },
@@ -61,7 +92,7 @@ const carSchema = new mongoose.Schema(
     registration: { type: String, required: true },
     color: { type: String, required: true },
     bodyType: { type: String, required: true },
-    isSold: { type: Boolean, default: false }, // <-- NEW FIELD
+    isSold: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
@@ -69,8 +100,6 @@ const carSchema = new mongoose.Schema(
 const Car = mongoose.model("Car", carSchema);
 
 // ---------------------- CAR ROUTES -------------------------
-
-// ➕ Add a new car (Admin)
 app.post("/api/cars", async (req, res) => {
   try {
     const {
@@ -131,7 +160,6 @@ app.post("/api/cars", async (req, res) => {
   }
 });
 
-// 📋 Get all cars
 app.get("/api/cars", async (req, res) => {
   try {
     const cars = await Car.find().sort({ createdAt: -1 });
@@ -142,7 +170,6 @@ app.get("/api/cars", async (req, res) => {
   }
 });
 
-// 📝 Get car by ID
 app.get("/api/cars/:id", async (req, res) => {
   try {
     const car = await Car.findById(req.params.id);
@@ -154,7 +181,6 @@ app.get("/api/cars/:id", async (req, res) => {
   }
 });
 
-// ⚡ Mark car as sold (Admin)
 app.patch("/api/cars/:id/sold", async (req, res) => {
   try {
     const car = await Car.findById(req.params.id);
@@ -170,7 +196,6 @@ app.patch("/api/cars/:id/sold", async (req, res) => {
   }
 });
 
-// ---------------------- DELETE CAR -------------------------
 app.delete("/api/cars/:id", async (req, res) => {
   try {
     const car = await Car.findById(req.params.id);

@@ -1,7 +1,8 @@
 // src/pages/CarDetails.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import gsap from "gsap";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -9,6 +10,8 @@ const CarDetails = () => {
   const [car, setCar] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
   const [relatedCars, setRelatedCars] = useState([]);
+  const relatedRefs = useRef([]);
+  const carouselRef = useRef(null);
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -34,10 +37,35 @@ const CarDetails = () => {
     fetchRelated();
   }, [id]);
 
+  // Animate related cars
+  useEffect(() => {
+    relatedRefs.current.forEach((card, index) => {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: index * 0.1,
+          ease: "power3.out",
+        }
+      );
+    });
+  }, [relatedCars]);
+
   if (!car) return <div className="min-h-screen flex justify-center items-center">Loading...</div>;
 
   const nextImage = () => setCurrentImage((prev) => (prev + 1) % car.images.length);
   const prevImage = () => setCurrentImage((prev) => (prev - 1 + car.images.length) % car.images.length);
+
+  // Scroll carousel left/right
+  const scrollLeft = () => {
+    carouselRef.current.scrollBy({ left: -260, behavior: "smooth" });
+  };
+  const scrollRight = () => {
+    carouselRef.current.scrollBy({ left: 260, behavior: "smooth" });
+  };
 
   return (
     <div className="min-h-screen px-4 pt-24 pb-16 bg-gray-50">
@@ -89,7 +117,7 @@ const CarDetails = () => {
         {/* Right: Car info */}
         <div className="lg:w-1/2 flex flex-col gap-4">
           <h1 className="text-3xl text-black font-bold">{car.name}</h1>
-          <p className="text-gray-600">{car.year} • {car.driven} {"km"} • {car.fuelType}</p>
+          <p className="text-gray-600">{car.year} • {car.driven} km • {car.fuelType}</p>
           <p className="text-red-700 text-2xl font-bold">₹ {car.price.toLocaleString()}</p>
 
           {/* Car details table */}
@@ -101,7 +129,7 @@ const CarDetails = () => {
                 <tr><td className="font-semibold">Year:</td><td>{car.year}</td></tr>
                 <tr><td className="font-semibold">Transmission:</td><td>{car.transmission}</td></tr>
                 <tr><td className="font-semibold">Ownership:</td><td>{car.ownership}</td></tr>
-                <tr><td className="font-semibold">Driven:</td><td>{car.driven} {"km"}</td></tr>
+                <tr><td className="font-semibold">Driven:</td><td>{car.driven} km</td></tr>
                 <tr><td className="font-semibold">Fuel Type:</td><td>{car.fuelType}</td></tr>
                 <tr><td className="font-semibold">Registration:</td><td>{car.registration}</td></tr>
                 <tr><td className="font-semibold">Color:</td><td>{car.color}</td></tr>
@@ -113,13 +141,13 @@ const CarDetails = () => {
           {/* WhatsApp & Call buttons */}
           <div className="flex flex-col gap-3 mt-4">
             <button
-              onClick={() => window.open(`https://wa.me/919717036789?text=Hello, I'm interested in ${car.name}`, "_blank")}
+              onClick={() => window.open(`https://wa.me/9599706662?text=Hello, I'm interested in ${car.name}`, "_blank")}
               className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-xl"
             >
               WhatsApp
             </button>
             <button
-              onClick={() => window.open(`tel:+919717036789`)}
+              onClick={() => window.open(`tel:+919599706662`)}
               className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-2 rounded-xl"
             >
               Call Now
@@ -128,15 +156,36 @@ const CarDetails = () => {
         </div>
       </div>
 
-      {/* Related Cars Carousel */}
+      {/* Related Cars Carousel with arrows */}
       {relatedCars.length > 0 && (
-        <div className="mt-16">
+        <div className="mt-16 relative">
           <h2 className="text-2xl text-black font-bold mb-6 text-center">Other Listings</h2>
-          <div className="flex gap-4 overflow-x-auto pb-4">
-            {relatedCars.map((c) => (
+
+          {/* Left Arrow */}
+          <button
+            onClick={scrollLeft}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-md hover:bg-gray-100 z-20"
+          >
+            ◀
+          </button>
+
+          {/* Right Arrow */}
+          <button
+            onClick={scrollRight}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-3 shadow-md hover:bg-gray-100 z-20"
+          >
+            ▶
+          </button>
+
+          <div
+            ref={carouselRef}
+            className="flex gap-4 overflow-x-hidden scroll-smooth pb-4"
+          >
+            {relatedCars.map((c, index) => (
               <div
                 key={c._id}
-                className="min-w-[250px] bg-white rounded-2xl shadow-2xl cursor-pointer"
+                ref={(el) => (relatedRefs.current[index] = el)}
+                className="min-w-[250px] bg-white rounded-2xl shadow-2xl cursor-pointer transform transition-transform hover:scale-105"
                 onClick={() => navigate(`/cars/${c._id}`)}
               >
                 <img

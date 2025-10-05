@@ -15,22 +15,10 @@ const Footer = () => {
           </p>
           <div className="flex gap-4 mt-4">
             <a
-              href="#"
-              className="p-3 bg-gray-800 rounded-full hover:bg-cyan-500 hover:text-white transition-colors shadow-md"
-            >
-              <FaFacebookF size={18} />
-            </a>
-            <a
-              href="#"
+              href="https://www.instagram.com/autotradzllp/"
               className="p-3 bg-gray-800 rounded-full hover:bg-cyan-500 hover:text-white transition-colors shadow-md"
             >
               <FaInstagram size={18} />
-            </a>
-            <a
-              href="#"
-              className="p-3 bg-gray-800 rounded-full hover:bg-cyan-500 hover:text-white transition-colors shadow-md"
-            >
-              <FaTwitter size={18} />
             </a>
           </div>
         </div>
@@ -73,6 +61,26 @@ const Footer = () => {
             CarSite connects car enthusiasts with premium second-hand vehicles.
             Each listing is verified and carefully curated to ensure quality and trust.
           </p>
+          <div className="mt-12 text-gray-300 text-mid">
+            <p>
+              📧 Email:{" "}
+              <a
+                href="mailto:autotradzllp@gmail.com"
+                className="text-cyan-400 hover:underline"
+              >
+                autotradzllp@gmail.com
+              </a>
+            </p>
+            <p className="mt-2">
+              📞 Phone:{" "}
+              <a
+                href="tel:+919599706662"
+                className="text-cyan-400 hover:underline"
+              >
+                +91 9599706662
+              </a>
+            </p>
+          </div>
         </div>
       </div>
 

@@ -21,28 +21,25 @@ const Navbar = () => {
     { name: "Contact", to: "/contact" },
   ];
 
-  const handleLogin = () => {
-    navigate("/admin-login");
-  };
-
+  const handleLogin = () => navigate("/admin-login");
   const handleLogout = () => {
     localStorage.removeItem("isAdmin");
     navigate("/");
-    window.location.reload(); // optional to fully reset state
+    window.location.reload();
   };
 
   return (
     <nav
       className={`fixed w-full z-50 px-6 py-4 flex items-center justify-between transition-all duration-500 ${
-        isScrolled ? "backdrop-blur-md bg-white/70 shadow-lg" : "bg-white/40"
+        isScrolled ? "bg-white shadow-lg" : "bg-white"
       }`}
     >
       {/* Logo */}
       <div
         onClick={() => navigate("/")}
-        className="text-3xl font-extrabold text-black cursor-pointer tracking-wider"
+        className="text-3xl font-extrabold text-cyan-600 cursor-pointer tracking-wider"
       >
-        CarSite
+        Autotradllp
       </div>
 
       {/* Desktop Links */}
@@ -92,61 +89,77 @@ const Navbar = () => {
 
       {/* Mobile Hamburger */}
       <div
-        className="md:hidden text-black cursor-pointer"
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="md:hidden text-black cursor-pointer z-50"
+        onClick={() => setIsMobileMenuOpen(true)}
       >
-        {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        <Menu size={28} />
       </div>
 
       {/* Mobile Sidebar */}
-      <div
-        className={`fixed top-0 right-0 h-full w-64 bg-white/90 text-black transform transition-transform duration-300 shadow-xl ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-      >
-        <ul className="flex flex-col gap-6 mt-24 ml-6 text-lg">
-          {navLinks.map((link) => (
-            <li
-              key={link.name}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="hover:text-cyan-500 transition-colors duration-300"
-            >
-              <Link to={link.to}>{link.name}</Link>
-            </li>
-          ))}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          {/* Dimmed Backdrop */}
+          <div
+            className="flex-1"
+            onClick={() => setIsMobileMenuOpen(false)}
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.3)" }}
+          ></div>
 
-          {isAdmin ? (
-            <>
-              <li>
-                <Link
-                  to="/admin/add-car"
-                  className="mt-4 text-red-500 font-bold hover:text-red-600"
+          {/* Sidebar */}
+          <div className="w-64 h-full bg-white rounded-l-3xl shadow-2xl relative p-6 flex flex-col">
+            {/* Close Button */}
+            <div
+              className="absolute top-4 right-4 cursor-pointer text-black hover:text-red-500"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <X size={28} />
+            </div>
+
+            <ul className="flex flex-col gap-6 mt-12 text-black text-lg">
+              {navLinks.map((link) => (
+                <li
+                  key={link.name}
                   onClick={() => setIsMobileMenuOpen(false)}
+                  className="hover:text-cyan-500 transition-colors duration-300"
                 >
-                  Add Car
-                </Link>
-              </li>
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="mt-4 bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 px-6 rounded-lg w-full"
-                >
-                  Logout
-                </button>
-              </li>
-            </>
-          ) : (
-            <li>
-              <button
-                onClick={handleLogin}
-                className="mt-4 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-6 rounded-lg w-full"
-              >
-                Login
-              </button>
-            </li>
-          )}
-        </ul>
-      </div>
+                  <Link to={link.to}>{link.name}</Link>
+                </li>
+              ))}
+
+              {isAdmin ? (
+                <>
+                  <li>
+                    <Link
+                      to="/admin/add-car"
+                      className="mt-4 text-red-500 font-bold hover:text-red-600"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Add Car
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className="mt-4 bg-gray-800 hover:bg-gray-900 text-white font-semibold py-2 px-6 rounded-lg w-full"
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </>
+              ) : (
+                <li>
+                  <button
+                    onClick={handleLogin}
+                    className="mt-4 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-2 px-6 rounded-lg w-full"
+                  >
+                    Login
+                  </button>
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

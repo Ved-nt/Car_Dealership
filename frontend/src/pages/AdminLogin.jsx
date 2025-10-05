@@ -33,8 +33,9 @@ const AdminLogin = () => {
         className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md"
       >
         <h2 className="text-2xl font-bold mb-6 text-black text-center">
-          Admin Login
+          Admin Login 
         </h2>
+        <h3 className="text-xl text-center mb-6 text-gray-900">Only for admin</h3>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <input
           type="email"
