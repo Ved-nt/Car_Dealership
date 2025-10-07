@@ -18,7 +18,7 @@ app.use(
 );
 
 // ✅ Handle OPTIONS preflight requests explicitly (important for some hosts)
-app.options("*", cors());
+app.options("/", cors());
 
 app.use(express.json());
 
