@@ -15,7 +15,7 @@ const Cars = () => {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/cars");
+        const res = await axios.get("https://car-dealership-ft4k.onrender.com/api/cars");
         setCars(res.data.cars);
       } catch (err) {
         console.error("Error fetching cars:", err);
@@ -103,3 +103,5 @@ const Cars = () => {
 };
 
 export default Cars;
+
+

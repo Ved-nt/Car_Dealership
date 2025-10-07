@@ -26,7 +26,7 @@ const CarsAdmin = () => {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/cars");
+        const res = await axios.get("https://car-dealership-ft4k.onrender.com/api/cars");
         setAllCars(res.data.cars);
       } catch (err) {
         console.error(err);
@@ -62,7 +62,7 @@ const CarsAdmin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/cars", carData);
+      await axios.post("https://car-dealership-ft4k.onrender.com/api/cars", carData);
       alert("Car added successfully!");
       setCarData({
         name: "",
@@ -80,7 +80,7 @@ const CarsAdmin = () => {
         bodyType: "",
         sold: false,
       });
-      const res = await axios.get("http://localhost:5000/api/cars");
+      const res = await axios.get("https://car-dealership-ft4k.onrender.com/api/cars");
       setAllCars(res.data.cars);
     } catch (err) {
       console.error(err);
@@ -91,7 +91,7 @@ const CarsAdmin = () => {
   // Mark car as sold
   const markAsSold = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/cars/${id}/sold`);
+      await axios.patch(`https://car-dealership-ft4k.onrender.comapi/cars/${id}/sold`);
       setAllCars(allCars.map(car => car._id === id ? { ...car, sold: true } : car));
     } catch (err) {
       console.error(err);
