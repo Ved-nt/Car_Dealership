@@ -8,10 +8,18 @@ const nodemailer = require("nodemailer"); // 🟢 NEW
 const app = express();
 
 // --------------------- MIDDLEWARES ---------------------
-app.use(cors({
-  origin:"https://autotradzllp.vercel.app",
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: ["https://autotradzllp.vercel.app", "http://localhost:5173"], // allow both prod & dev
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
+// ✅ Handle OPTIONS preflight requests explicitly (important for some hosts)
+app.options("*", cors());
+
 app.use(express.json());
 
 // ------------------ MONGODB CONNECTION -----------------
