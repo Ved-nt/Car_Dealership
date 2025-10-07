@@ -8,7 +8,10 @@ const nodemailer = require("nodemailer"); // 🟢 NEW
 const app = express();
 
 // --------------------- MIDDLEWARES ---------------------
-app.use(cors());
+app.use(cors({
+  origin:"https://autotradzllp.vercel.app",
+  credentials: true,
+}));
 app.use(express.json());
 
 // ------------------ MONGODB CONNECTION -----------------
@@ -36,6 +39,10 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER, // your Gmail
     pass: process.env.EMAIL_PASS, // App Password (not normal password)
   },
+});
+
+app.get("/", (req, res) => {
+  res.send("🚀 Backend is running successfully!");
 });
 
 // -------------------- CONTACT ROUTE --------------------
