@@ -10,7 +10,7 @@ const app = express();
 // --------------------- MIDDLEWARES ---------------------
 app.use(
   cors({
-    origin: ["https://autotradzllp.vercel.app", "http://localhost:5173"], // allow both prod & dev
+    origin: ["https://autotradzllp.vercel.app","autotradzllp-n332of31j-ved-nts-projects.vercel.app", "http://localhost:5173"], // allow both prod & dev
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
