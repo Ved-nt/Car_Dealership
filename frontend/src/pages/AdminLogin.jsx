@@ -17,7 +17,7 @@ const AdminLogin = () => {
         password,
       });
       if (res.data.success) {
-        localStorage.setItem("isAdmin", "true"); // ✅ store as string
+        sessionStorage.setItem("isAdmin", "true"); // ✅ store as string
         navigate("/admin/add-car");
         window.location.reload(); // ✅ so main.jsx picks up the new state
       }

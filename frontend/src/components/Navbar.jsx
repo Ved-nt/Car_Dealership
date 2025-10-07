@@ -7,7 +7,8 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
-  const isAdmin = localStorage.getItem("isAdmin") === "true";
+  // ✅ Use sessionStorage instead of localStorage
+  const isAdmin = sessionStorage.getItem("isAdmin") === "true";
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -22,8 +23,10 @@ const Navbar = () => {
   ];
 
   const handleLogin = () => navigate("/admin-login");
+
+  // ✅ Clear sessionStorage on logout
   const handleLogout = () => {
-    localStorage.removeItem("isAdmin");
+    sessionStorage.removeItem("isAdmin");
     navigate("/");
     window.location.reload();
   };
@@ -39,7 +42,7 @@ const Navbar = () => {
         onClick={() => navigate("/")}
         className="text-3xl font-extrabold text-cyan-600 cursor-pointer tracking-wider"
       >
-        Autotradllp
+        Autotradz LLP
       </div>
 
       {/* Desktop Links */}

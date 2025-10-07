@@ -16,8 +16,8 @@ const Home = () => {
   const aboutTextRef = useRef(null);
 
   const cars = [
-    { name: "Audi Q7", status: "Sold", img: "/audi.png" },
-    { name: "Innova Crysta", status: "Sold", img: "/innova.png" },
+    { name: "AUDI A6 35 TFSI", status: "Sold", img: "./image2.jpg" },
+    { name: "Innova Crysta", status: "", img: "./image.jpeg" },
     { name: "Coming Soon", status: "Available", img: null },
   ];
 
@@ -123,7 +123,7 @@ const Home = () => {
             ref={headingRef}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-4 leading-tight tracking-tight"
           >
-            Drive Your Dreams
+            AapkiDreamCar
           </h1>
           <p
             ref={textRef}
@@ -187,7 +187,7 @@ const Home = () => {
             About Our Company
           </h2>
           <p className="text-cyan-900 text-sm sm:text-base md:text-lg mb-2 md:mb-4 leading-relaxed">
-            At <strong>AUTOTRADLLP</strong>, we specialize in premium second-hand cars. Each vehicle is carefully inspected to ensure <span className="text-cyan-700 font-semibold">trust</span>, transparency, and quality.
+            At <strong>AUTOTRADZ LLP</strong>, we specialize in premium second-hand cars. Each vehicle is carefully inspected to ensure <span className="text-cyan-700 font-semibold">trust</span>, transparency, and quality.
           </p>
           <p className="text-cyan-900 text-sm sm:text-base md:text-lg leading-relaxed">
             From verified ownership to after-sale support, we provide a seamless car buying experience. Our team is passionate about cars and committed to delivering satisfaction with every purchase.
