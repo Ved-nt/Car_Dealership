@@ -76,7 +76,7 @@ const CarDetails = () => {
             <img
               src={car.images[currentImage] || "/placeholder.jpg"}
               alt={car.name}
-              className="w-full h-[400px] object-cover rounded-2xl shadow-2xl transition-all duration-500"
+              className="w-full h-[400px] object-contain bg-white rounded-2xl shadow-2xl transition-all duration-500"
             />
             {car.images.length > 1 && (
               <>
@@ -104,7 +104,7 @@ const CarDetails = () => {
                   key={idx}
                   src={img}
                   alt={`Thumbnail ${idx}`}
-                  className={`w-20 h-20 object-contain rounded-lg cursor-pointer border-2 ${
+                  className={`w-20 h-20 object-contain rounded-lg cursor-pointer bg-white border-2 ${
                     idx === currentImage ? "border-blue-500" : "border-transparent"
                   }`}
                   onClick={() => setCurrentImage(idx)}
