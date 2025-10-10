@@ -185,9 +185,16 @@ const CarDetails = () => {
               <div
                 key={c._id}
                 ref={(el) => (relatedRefs.current[index] = el)}
-                className="min-w-[250px] bg-white rounded-2xl shadow-2xl cursor-pointer transform transition-transform hover:scale-105"
+                className="relative min-w-[250px] bg-white rounded-2xl shadow-2xl cursor-pointer transform transition-transform hover:scale-105"
                 onClick={() => navigate(`/cars/${c._id}`)}
               >
+                {/* Sold Badge */}
+                {c.isSold && (
+                  <div className="absolute top-2 left-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
+                    SOLD
+                  </div>
+                )}
+
                 <img
                   src={c.images[0] || "/placeholder.jpg"}
                   alt={c.name}
@@ -199,6 +206,7 @@ const CarDetails = () => {
                 </div>
               </div>
             ))}
+
           </div>
         </div>
       )}
