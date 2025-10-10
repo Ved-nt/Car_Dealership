@@ -76,7 +76,7 @@ const CarDetails = () => {
             <img
               src={car.images[currentImage] || "/placeholder.jpg"}
               alt={car.name}
-              className="w-full h-100 object-cover rounded-2xl shadow-2xl transition-all duration-500"
+              className="w-full h-[400px] object-cover rounded-2xl shadow-2xl transition-all duration-500"
             />
             {car.images.length > 1 && (
               <>
