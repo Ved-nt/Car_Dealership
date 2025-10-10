@@ -12,7 +12,7 @@ import CarsAdmin from "./pages/CarsAdmin.jsx";
 
 const AdminRoute = ({ children }) => {
   const isAdmin = localStorage.getItem("isAdmin") === "true";
-  return isAdmin ? children : <Navigate to="/admin-login" />;
+  return isAdmin ? children : <Navigate to="/admin/login" />;
 };
 
 const router = createBrowserRouter([
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
       { path: "/contact", element: <Contact /> },
       { path: "/cars", element: <Cars /> },
       { path: "/cars/:id", element: <CarDetails /> },
-      { path: "/admin-login", element: <AdminLogin /> },
+      { path: "/admin/login", element: <AdminLogin /> },
       {
         path: "/admin/add-car",
         element: (

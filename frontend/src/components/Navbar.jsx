@@ -22,7 +22,7 @@ const Navbar = () => {
     { name: "Contact", to: "/contact" },
   ];
 
-  const handleLogin = () => navigate("/admin-login");
+  const handleLogin = () => navigate("/admin/login");
 
   // ✅ Clear sessionStorage on logout
   const handleLogout = () => {
