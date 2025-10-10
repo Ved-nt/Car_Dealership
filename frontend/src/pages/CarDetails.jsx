@@ -72,7 +72,7 @@ const CarDetails = () => {
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
         {/* Left: Image carousel */}
         <div className="lg:w-1/2">
-          <div className="relative overflow-hidden">
+          <div className="relative">
             <img
               src={car.images[currentImage] || "/placeholder.jpg"}
               alt={car.name}
@@ -104,7 +104,7 @@ const CarDetails = () => {
                   key={idx}
                   src={img}
                   alt={`Thumbnail ${idx}`}
-                  className={`w-20 h-20 object-contain rounded-lg cursor-pointer bg-gray-50 border-2 ${
+                  className={`w-20 h-20 object-contain rounded-lg cursor-pointer bg-gray-200 border-2 ${
                     idx === currentImage ? "border-blue-500" : "border-transparent"
                   }`}
                   onClick={() => setCurrentImage(idx)}
