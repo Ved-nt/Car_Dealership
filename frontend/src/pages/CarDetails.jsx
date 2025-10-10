@@ -72,11 +72,11 @@ const CarDetails = () => {
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
         {/* Left: Image carousel */}
         <div className="lg:w-1/2">
-          <div className="relative">
+          <div className="relative overflow-hidden">
             <img
               src={car.images[currentImage] || "/placeholder.jpg"}
               alt={car.name}
-              className="w-full h-[400px] object-contain bg-gray-50 rounded-2xl shadow-2xl transition-all duration-500"
+              className="w-full h-[400px] object-cover bg-gray-50 rounded-2xl shadow-2xl transition-all duration-500"
             />
             {car.images.length > 1 && (
               <>
