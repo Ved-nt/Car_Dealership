@@ -9,7 +9,7 @@ const app = express();
 
 // --------------------- MIDDLEWARES ---------------------
 app.use(cors({
-  origin: 'https://autotradzllp.vercel.app',
+  origin: 'https://car-dealership-2.onrender.com',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
