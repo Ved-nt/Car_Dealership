@@ -12,7 +12,7 @@ const AdminLogin = () => {
     e.preventDefault();
     setError("");
     try {
-      const res = await axios.post("https://car-dealership-ft4k.onrender.com/api/admin/login", {
+      const res = await axios.post("https://car-dealership-1.onrender.com/api/admin/login", {
         email,
         password,
       });

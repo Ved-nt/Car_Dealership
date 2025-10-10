@@ -8,18 +8,10 @@ const nodemailer = require("nodemailer"); // 🟢 NEW
 const app = express();
 
 // --------------------- MIDDLEWARES ---------------------
-app.use(
-  cors({
-    origin: ["https://autotradzllp.vercel.app","autotradzllp-n332of31j-ved-nts-projects.vercel.app", "http://localhost:5173"], // allow both prod & dev
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
-
-// ✅ Handle OPTIONS preflight requests explicitly (important for some hosts)
-app.options("/", cors());
-
+app.use(cors({
+  origin:"https://autotradzllp.vercel.app",
+  methods:'*'
+}));
 app.use(express.json());
 
 // ------------------ MONGODB CONNECTION -----------------
@@ -47,10 +39,6 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER, // your Gmail
     pass: process.env.EMAIL_PASS, // App Password (not normal password)
   },
-});
-
-app.get("/", (req, res) => {
-  res.send("🚀 Backend is running successfully!");
 });
 
 // -------------------- CONTACT ROUTE --------------------

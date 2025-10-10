@@ -16,7 +16,7 @@ const CarDetails = () => {
   useEffect(() => {
     const fetchCar = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/cars/${id}`);
+        const res = await axios.get(`https://car-dealership-1.onrender.com/api/cars/${id}`);
         setCar(res.data.car);
       } catch (err) {
         console.error("Error fetching car:", err);
@@ -28,7 +28,7 @@ const CarDetails = () => {
   useEffect(() => {
     const fetchRelated = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/cars`);
+        const res = await axios.get(`https://car-dealership-1.onrender.com/api/cars`);
         setRelatedCars(res.data.cars.filter((c) => c._id !== id));
       } catch (err) {
         console.error("Error fetching related cars:", err);
@@ -141,7 +141,7 @@ const CarDetails = () => {
           {/* WhatsApp & Call buttons */}
           <div className="flex flex-col gap-3 mt-4">
             <button
-              onClick={() => window.open(`https://wa.me/9599706662?text=Hello, I'm interested in ${car.name}`, "_blank")}
+              onClick={() => window.open(`https://wa.me/+919599706662?text=Hello, I'm interested in ${car.name}`, "_blank")}
               className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-xl"
             >
               WhatsApp
@@ -195,7 +195,7 @@ const CarDetails = () => {
                 />
                 <div className="p-3">
                   <h3 className="text-black font-semibold">{c.name}</h3>
-                  <p className="text-gray-600">{c.year} • {c.mileage}</p>
+                  <p className="text-gray-600">{c.year} • {c.driven} km</p>
                 </div>
               </div>
             ))}

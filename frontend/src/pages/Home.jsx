@@ -17,7 +17,7 @@ const Home = () => {
 
   const cars = [
     { name: "AUDI A6 35 TFSI", status: "Sold", img: "./image2.jpg" },
-    { name: "Innova Crysta", status: "", img: "./image.jpeg" },
+    { name: "Innova Crysta", status: "2020 • 94300 km • Diesel", img: "./image.jpeg" },
     { name: "Coming Soon", status: "Available", img: null },
   ];
 
@@ -219,7 +219,7 @@ const Home = () => {
                 </div>
               )}
               <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-cyan-700">{car.name}</h3>
-              <p className={`mt-1 text-sm sm:text-base md:text-md font-medium ${car.status === "Sold" ? "text-gray-500" : "text-cyan-800"}`}>
+              <p className={`mt-1 text-sm sm:text-base md:text-md font-medium ${car.status === "Sold" ? "text-red-500" : "text-black"}`}>
                 {car.status}
               </p>
             </div>
