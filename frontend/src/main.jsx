@@ -11,7 +11,7 @@ import AdminLogin from "./pages/AdminLogin.jsx";
 import CarsAdmin from "./pages/CarsAdmin.jsx";
 
 const AdminRoute = ({ children }) => {
-  const isAdmin = localStorage.getItem("isAdmin") === "true";
+  const isAdmin = sessionStorage.getItem("isAdmin") === "true";
   return isAdmin ? children : <Navigate to="/admin/login" />;
 };
 
