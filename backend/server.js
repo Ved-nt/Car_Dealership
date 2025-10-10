@@ -10,7 +10,7 @@ const app = express();
 // --------------------- MIDDLEWARES ---------------------
 app.use(cors({
   origin: 'https://car-dealership-2.onrender.com',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true
 }));
 app.use(express.json());
