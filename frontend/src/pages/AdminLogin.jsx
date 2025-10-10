@@ -19,7 +19,6 @@ const AdminLogin = () => {
       if (res.data.success) {
         sessionStorage.setItem("isAdmin", "true"); // ✅ store as string
         navigate("/admin/add-car");
-        window.location.reload(); // ✅ so main.jsx picks up the new state
       }
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
