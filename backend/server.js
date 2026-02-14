@@ -3,16 +3,29 @@ const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./db");
 const mongoose = require("mongoose");
-const nodemailer = require("nodemailer"); // 🟢 NEW
+const nodemailer = require("nodemailer");
 
 const app = express();
 
 // --------------------- MIDDLEWARES ---------------------
+const allowedOrigins = [
+  "https://autotradzllp.vercel.app",   // ✅ Your Vercel frontend
+  "https://car-dealership-2.onrender.com" // ✅ Your Render test domain
+];
+
 app.use(cors({
-  origin: 'https://car-dealership-2.onrender.com',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
   credentials: true
 }));
+
 app.use(express.json());
 
 // ------------------ MONGODB CONNECTION -----------------
@@ -33,12 +46,11 @@ const contactSchema = new mongoose.Schema(
 const Contact = mongoose.model("Contact", contactSchema);
 
 // -------------------- NODEMAILER TRANSPORT --------------------
-// Using Gmail SMTP
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER, // your Gmail
-    pass: process.env.EMAIL_PASS, // App Password (not normal password)
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS, // App Password
   },
 });
 
@@ -51,14 +63,12 @@ app.post("/api/contact", async (req, res) => {
   }
 
   try {
-    // 1️⃣ Save contact to DB
     const contact = new Contact({ name, email, whatsapp, budget, interestedCar });
     await contact.save();
 
-    // 2️⃣ Send email notification to Uncle
     const mailOptions = {
       from: `"Car Website" <${process.env.EMAIL_USER}>`,
-      to: process.env.UNCLE_EMAIL, // Uncle's email from .env
+      to: process.env.UNCLE_EMAIL,
       subject: `🚨 New Inquiry from ${name}`,
       html: `
         <h2>New Contact Submission</h2>
@@ -107,53 +117,21 @@ const Car = mongoose.model("Car", carSchema);
 app.post("/api/cars", async (req, res) => {
   try {
     const {
-      name,
-      brand,
-      price,
-      images,
-      description,
-      year,
-      fuelType,
-      driven,
-      transmission,
-      ownership,
-      registration,
-      color,
-      bodyType,
+      name, brand, price, images, description, year,
+      fuelType, driven, transmission, ownership,
+      registration, color, bodyType
     } = req.body;
 
-    if (
-      !name ||
-      !brand ||
-      !price ||
-      !images ||
-      !description ||
-      !year ||
-      !fuelType ||
-      !driven ||
-      !transmission ||
-      !ownership ||
-      !registration ||
-      !color ||
-      !bodyType
-    ) {
+    if (!name || !brand || !price || !images || !description || !year ||
+        !fuelType || !driven || !transmission || !ownership ||
+        !registration || !color || !bodyType) {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
 
     const car = new Car({
-      name,
-      brand,
-      price,
-      images,
-      description,
-      year,
-      fuelType,
-      driven,
-      transmission,
-      ownership,
-      registration,
-      color,
-      bodyType,
+      name, brand, price, images, description, year,
+      fuelType, driven, transmission, ownership,
+      registration, color, bodyType
     });
 
     await car.save();
